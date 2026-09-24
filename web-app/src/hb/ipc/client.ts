@@ -20,9 +20,27 @@ export function failure(area: s.HbArea, kind: s.HbError['kind']): { ok: false; e
   return { ok: false, error: { code: `HB-${area}-${suffix}`, kind } }
 }
 
+// Wire names are dotted/slashed (contract §2.2), but a Tauri command handler is a
+// Rust identifier. The core registers each HB command as `hb_<name>` with `.`, `/`
+// and `-` collapsed to `_` (see src-tauri/src/core/hb/commands.rs). This handler
+// rename is the ONLY translation: the args sent and the result parsed are the
+// contract's own camelCase shapes, unchanged.
+function nativeName(command: CommandName): string {
+  return `hb_${command.replace(/[./-]/g, '_')}`
+}
+
 // Only add an HB wire name here with Rust registration + contract evidence.
 // Do not route engine.load to Jan's load_model: that bypasses the fileId check gate.
-export const implementedCommands: ReadonlySet<CommandName> = new Set()
+// Registered natively in src-tauri/src/core/hb/commands.rs (feat/native-registration).
+export const implementedCommands: ReadonlySet<CommandName> = new Set<CommandName>([
+  'downloads.arm', 'downloads.start', 'downloads.pause', 'downloads.resume',
+  'downloads.cancel', 'downloads.retry',
+  'verify.start', 'verify.recheck', 'verify.status',
+  'engine.load', 'engine.unload', 'engine.get_loaded', 'engine.infer',
+  'library.list', 'library.details', 'library.delete', 'library.restore', 'library.purge',
+  'storage.free_space', 'storage.resolve', 'storage.set_root', 'storage.measure',
+  'catalog.read_cache',
+])
 
 export function createClient(transport: Transport = tauriTransport, implemented = implementedCommands) {
   async function call<K extends CommandName>(command: K, args: CommandArgs<K>): Promise<s.HbResult<CommandValue<K>>> {
@@ -31,7 +49,7 @@ export function createClient(transport: Transport = tauriTransport, implemented 
     if (!parsedArgs.success) return failure(definition.area, 'invalid-payload')
     if (!transport.available() || !implemented.has(command)) return failure(definition.area, 'unavailable')
     try {
-      const raw = await transport.invoke(command, parsedArgs.data)
+      const raw = await transport.invoke(nativeName(command), parsedArgs.data)
       const parsed = s.resultSchema(definition.result).safeParse(raw)
       // This assertion preserves the registry's key/result relationship, lost by
       // TS when indexing a union of Zod schemas. The runtime parse is mandatory.

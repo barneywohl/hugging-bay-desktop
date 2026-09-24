@@ -12,9 +12,12 @@ function transport() {
 }
 
 describe('typed boundary honesty', () => {
-  it('does not invoke missing HB commands or fallback to unchecked Jan loading', async () => {
+  it('does not invoke an unimplemented HB command or fallback to unchecked Jan loading', async () => {
     const wire = transport()
-    const client = createClient(wire)
+    // The fail-closed law: a command absent from the implemented set never
+    // reaches the wire. (The default set now registers the native surface, so
+    // this pins the gate itself with an empty set.)
+    const client = createClient(wire, new Set())
     expect(await client.engine.load({ modelId: 'm', fileId: 'f' })).toEqual({ ok: false, error: { code: 'HB-ENGINE-UNAVAILABLE', kind: 'unavailable' } })
     expect(await client.downloads.arm({ modelId: 'm', fileId: 'f', source: 'detail' })).toMatchObject({ ok: false })
     expect(wire.invoke).not.toHaveBeenCalled()

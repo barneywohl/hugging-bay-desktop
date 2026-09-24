@@ -78,7 +78,8 @@ describe('core mirror laws', () => {
   it('does not let a delayed get_loaded response resurrect a killed session', async () => {
     const h = harness(['engine.get_loaded'])
     let resolveLoaded: ((value: unknown) => void) | undefined
-    h.wire.invoke = vi.fn((command) => command === 'engine.get_loaded' ? new Promise((resolve) => { resolveLoaded = resolve }) : Promise.resolve(null))
+    // call() invokes the native handler name (hb_<wire>, separators -> '_').
+    h.wire.invoke = vi.fn((command) => command === 'hb_engine_get_loaded' ? new Promise((resolve) => { resolveLoaded = resolve }) : Promise.resolve(null))
     const session = start(h.client)
     await vi.waitFor(() => expect(resolveLoaded).toBeDefined())
     h.emit('engine/crashed', { modelId: 'm', kind: 'killed-externally' })
@@ -89,7 +90,7 @@ describe('core mirror laws', () => {
   it('clears the library on a root watcher event; late list responses cannot restore stale rows', async () => {
     const h = harness(['library.list'])
     let resolveList: ((value: unknown) => void) | undefined
-    h.wire.invoke = vi.fn((command) => command === 'library.list' ? new Promise((resolve) => { resolveList = resolve }) : Promise.resolve(null))
+    h.wire.invoke = vi.fn((command) => command === 'hb_library_list' ? new Promise((resolve) => { resolveList = resolve }) : Promise.resolve(null))
     const session = start(h.client)
     await vi.waitFor(() => expect(resolveList).toBeDefined())
     h.emit('library/storage-unreachable', { path: '/external/models', reason: 'unplugged' })
