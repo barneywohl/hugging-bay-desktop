@@ -137,6 +137,32 @@ macro_rules! invoke_commands_with_extras {
         core::downloads::commands::download_files,
         core::downloads::commands::cancel_download_task,
         core::downloads::commands::pause_download_task,
+        // Hugging Bay native command surface (renderer wire contract bridge).
+        // The renderer's transport maps each dotted wire name to these `hb_*`
+        // handlers; see web-app/src/hb/ipc/client.ts.
+        core::hb::commands::hb_downloads_arm,
+        core::hb::commands::hb_downloads_start,
+        core::hb::commands::hb_downloads_pause,
+        core::hb::commands::hb_downloads_resume,
+        core::hb::commands::hb_downloads_cancel,
+        core::hb::commands::hb_downloads_retry,
+        core::hb::commands::hb_verify_start,
+        core::hb::commands::hb_verify_recheck,
+        core::hb::commands::hb_verify_status,
+        core::hb::commands::hb_engine_load,
+        core::hb::commands::hb_engine_unload,
+        core::hb::commands::hb_engine_get_loaded,
+        core::hb::commands::hb_engine_infer,
+        core::hb::commands::hb_library_list,
+        core::hb::commands::hb_library_details,
+        core::hb::commands::hb_library_delete,
+        core::hb::commands::hb_library_restore,
+        core::hb::commands::hb_library_purge,
+        core::hb::commands::hb_storage_free_space,
+        core::hb::commands::hb_storage_resolve,
+        core::hb::commands::hb_storage_set_root,
+        core::hb::commands::hb_storage_measure,
+        core::hb::commands::hb_catalog_read_cache,
         // App lifecycle
         confirm_exit,
         // Theme

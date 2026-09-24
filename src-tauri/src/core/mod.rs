@@ -8,6 +8,10 @@ pub mod cli;
 pub mod downloads;
 #[cfg(not(feature = "cli"))]
 pub mod filesystem;
+// Hugging Bay native command surface (downloads/verify/engine/library/catalog),
+// bridging the renderer's wire contract to the real plugins. Desktop-only.
+#[cfg(not(feature = "cli"))]
+pub mod hb;
 pub mod mcp;
 pub mod openai_schema;
 pub mod server;
