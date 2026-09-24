@@ -3,7 +3,7 @@ import { createClient, type Transport } from '../ipc/client'
 import { connectMirrors } from '../stores/synchronize'
 import { downloadMirror, selectDownloadState } from '../stores/download'
 import { verifyMirror, selectChecked } from '../stores/verify'
-import { engineMirror, selectRunningModel } from '../stores/engine'
+import { engineMirror, selectRunningModel, selectLoadedModel } from '../stores/engine'
 import { fitMirror } from '../stores/fit'
 import { libraryMirror } from '../stores/library'
 import { settingsMirror } from '../stores/settings'
@@ -58,12 +58,19 @@ describe('core mirror laws', () => {
     h.emit('check/progress', { fileId: 'f', bytesHashed: 1, bytesTotal: 100 })
     expect(selectChecked(verifyMirror.getSnapshot().value?.f)).toBe(false)
   })
-  it('clears running claims on external death and malformed events', async () => {
+  it('ready is live but not running; first token flips running; death clears it', async () => {
     const h = harness(); await start(h.client).ready
+    // engine/ready = loaded + live (IND dot), but NOT the "running" claim.
     h.emit('engine/ready', { modelId: 'm' })
+    expect(selectLoadedModel(engineMirror.getSnapshot().value)).toEqual({ modelId: 'm', fileId: null })
+    expect(selectRunningModel(engineMirror.getSnapshot().value)).toBeNull()
+    // Only a real first token makes it running.
+    h.emit('engine/first-token', { modelId: 'm' })
     expect(selectRunningModel(engineMirror.getSnapshot().value)).toEqual({ modelId: 'm', fileId: null })
+    // External death clears both the running claim and the liveness dot.
     h.emit('engine/crashed', { modelId: 'm', kind: 'killed-externally' })
     expect(selectRunningModel(engineMirror.getSnapshot().value)).toBeNull()
+    expect(selectLoadedModel(engineMirror.getSnapshot().value)).toBeNull()
     h.emit('engine/ready', { modelId: 'm' })
     h.emit('engine/ready', {})
     expect(selectRunningModel(engineMirror.getSnapshot().value)).toBeNull()

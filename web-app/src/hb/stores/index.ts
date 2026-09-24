@@ -16,4 +16,4 @@ export const useSettingsStore = settingsMirror.useMirror
 export const useCatalogStore = catalogMirror.useMirror
 export { selectDownloadState } from './download'
 export { selectChecked } from './verify'
-export { selectRunningModel } from './engine'
+export { selectRunningModel, selectLoadedModel, selectFirstTokenSeen } from './engine'

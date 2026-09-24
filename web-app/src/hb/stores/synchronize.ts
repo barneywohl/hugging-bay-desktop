@@ -64,9 +64,10 @@ export function connectMirrors(client: HbClient = ipc) {
     engineRevision++
     receiveEngine({ loaded: null, phase: 'starting', starting, oom: null, crashed: null, firstToken: null, progress: null, offload: null })
   }, rejectEngine)
+  // engine/ready = loaded + live, but NOT yet "running": no token has streamed.
   subscribe('engine/ready', ({ modelId }) => {
     engineRevision++
-    receiveEngine({ loaded: { modelId, fileId: null }, phase: 'running', starting: null, oom: null, crashed: null, firstToken: null, progress: null })
+    receiveEngine({ loaded: { modelId, fileId: null }, phase: 'ready', starting: null, oom: null, crashed: null, firstToken: null, progress: null })
   }, rejectEngine)
   subscribe('engine/unloaded', () => {
     engineRevision++
@@ -80,9 +81,10 @@ export function connectMirrors(client: HbClient = ipc) {
     engineRevision++
     receiveEngine({ loaded: null, phase: 'oom', oom, starting: null, firstToken: null, progress: null, offload: null })
   }, rejectEngine)
+  // THE milestone flip: "running" is claimed ONLY here, on a real first token.
   subscribe('engine/first-token', (firstToken) => {
     engineRevision++
-    receiveEngine({ firstToken })
+    receiveEngine({ firstToken, phase: 'running' })
   }, rejectEngine)
   subscribe('engine/progress', (progress) => { engineRevision++; receiveEngine({ progress }) }, rejectEngine)
   subscribe('engine/pressure', (pressure) => { engineRevision++; receiveEngine({ pressure }) }, rejectEngine)
@@ -100,7 +102,9 @@ export function connectMirrors(client: HbClient = ipc) {
     const revision = ++engineRevision
     const result = await client.engine.getLoaded()
     if (active && revision === engineRevision) {
-      if (result.ok) receiveEngine({ loaded: result.value, phase: result.value ? 'running' : 'unloaded' })
+      // A loaded model on refresh is 'ready' (live), never 'running' — we have no
+      // first-token evidence for a session we did not watch start.
+      if (result.ok) receiveEngine({ loaded: result.value, phase: result.value ? 'ready' : 'unloaded' })
       else engineMirror.reject(result.error)
     }
     return result
