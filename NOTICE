@@ -1,0 +1,23 @@
+Hugging Bay
+Copyright 2026 Hugging Bay contributors
+
+This product is a modified fork of Jan and includes software developed by
+Menlo Research (https://menlo.ai).
+
+--------------------------------------------------------------------------------
+Upstream attribution (retained per Apache License 2.0, Section 4):
+--------------------------------------------------------------------------------
+
+Jan
+Copyright 2025 Menlo Research
+This product includes software developed by Menlo Research (https://menlo.ai).
+Licensed under the Apache License, Version 2.0.
+Attribution is requested in user-facing documentation and materials, where appropriate.
+
+Hugging Bay is an independent modified fork. Menlo Research does not endorse,
+sponsor, or support this fork, and nothing in this product should be read to
+imply such endorsement. "Jan" and "Menlo Research" are named only to describe
+the origin of the Work, as permitted by Apache License 2.0, Section 6.
+
+See FORK_NOTICE.md for the fork statement and CHANGES.md for the list of
+significant changes.

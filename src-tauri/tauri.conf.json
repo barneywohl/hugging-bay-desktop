@@ -1,7 +1,7 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "Jan",
-  "mainBinaryName": "Jan-Desktop",
+  "productName": "The Hugging Bay",
+  "mainBinaryName": "Hugging-Bay-Desktop",
   "version": "0.8.5",
   "identifier": "jan.ai.app",
   "build": {

@@ -591,6 +591,51 @@ function General() {
               />
             </Card>
 
+            {/* About — Hugging Bay fork attribution (Apache-2.0 obligation). Modified by the Hugging Bay fork. */}
+            <Card title="About">
+              <CardItem
+                title="The Hugging Bay"
+                actions={
+                  <span className="text-foreground font-medium">
+                    v{VERSION}
+                  </span>
+                }
+              />
+              <CardItem
+                align="start"
+                description={
+                  <div className="text-muted-foreground -mt-2 flex flex-col gap-2">
+                    <p>Built on Jan. © 2025 Menlo Research. Apache License 2.0.</p>
+                    <p>This is a modified fork of Jan.</p>
+                    <div className="flex items-center gap-4">
+                      <a
+                        className="text-[var(--hb-accent-primary,#1668d9)] hover:underline"
+                        href="https://github.com/barneywohl/hugging-bay-desktop/blob/main/CHANGES.md"
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        <div className="flex items-center gap-1">
+                          <span>See what&rsquo;s changed</span>
+                          <IconExternalLink size={14} />
+                        </div>
+                      </a>
+                      <a
+                        className="text-[var(--hb-accent-primary,#1668d9)] hover:underline"
+                        href="https://github.com/barneywohl/hugging-bay-desktop/blob/main/LICENSE"
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        <div className="flex items-center gap-1">
+                          <span>Read the license</span>
+                          <IconExternalLink size={14} />
+                        </div>
+                      </a>
+                    </div>
+                  </div>
+                }
+              />
+            </Card>
+
             {/* Credits */}
             <Card title={t('settings:general.credits')}>
               <CardItem

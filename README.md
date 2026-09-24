@@ -1,3 +1,15 @@
+# The Hugging Bay
+
+> **The Hugging Bay is a modified fork of [Jan](https://github.com/janhq/jan)** (© 2025
+> Menlo Research), distributed under the Apache License 2.0. Menlo Research does not
+> endorse this fork. See [`FORK_NOTICE.md`](./FORK_NOTICE.md), [`CHANGES.md`](./CHANGES.md),
+> [`LICENSE`](./LICENSE), and [`NOTICE`](./NOTICE). The buildable Hugging Bay UI foundation
+> (critical-path screens F1–F7 in the HB grammar) lives in [`hb-app/`](./hb-app/); the
+> canonical in-tree modules live in [`web-app/src/hb/`](./web-app/src/hb/).
+
+<details>
+<summary>Upstream README (Jan)</summary>
+
 # Jan - Open-source ChatGPT replacement
 
 <img width="2048" height="280" alt="github jan banner" src="https://github.com/user-attachments/assets/f3f87889-c133-433b-b250-236218150d3f" />
@@ -202,3 +214,5 @@ Built on the shoulders of giants:
 - [Llama.cpp](https://github.com/ggerganov/llama.cpp)
 - [Tauri](https://tauri.app/)
 - [Scalar](https://github.com/scalar/scalar)
+
+</details>
