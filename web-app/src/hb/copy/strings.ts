@@ -1,11 +1,23 @@
 /*
  * Hugging Bay — verbatim copy register.
- * Every string here is [EXACT] from APP_SPEC §15.1 (v2). Changing one requires a
+ * Product copy is from APP_SPEC §15.1 plus COPY_LOCK_ADDENDUM (2026-09-24).
+ * Addendum locks override stale APP_SPEC bodies. Changing a lock requires a
  * new Jev pass. Templated values ({name}, {size}, ...) bind live at render.
  * The banned mascot word never appears in any product string (enforced by the design-system lint).
  */
 
 export const COPY = {
+  // Lane 0 scaffold labels only; not Jev-tested product-flow copy.
+  shell: {
+    app: 'The Hugging Bay', firstRun: 'Welcome', discover: 'Discover',
+    modelDetail: 'Model details', downloads: 'Downloads', verify: 'File check',
+    chat: 'Chat', library: 'Library', engine: 'Model runner', updates: 'Updates',
+    settings: 'Settings', fit: 'Check this Mac', advanced: 'Advanced',
+    unavailable: "This screen isn't available yet.",
+    error: "This screen couldn't be opened.",
+    notFound: "This screen couldn't be found.",
+    navigation: 'Main navigation',
+  },
   f1: {
     s1: {
       welcome: 'Welcome to The Hugging Bay.',
@@ -98,7 +110,7 @@ export const COPY = {
     copied: 'Copied ✓',
     verifyAgain: 'Verify again',
     defaultFileNote:
-      "You don't need to know what the other files mean; this is the right one.",
+      'You don\'t need to know what a "model" is. This is the one for chatting.' ,
     // Verification explainer — shown by default (won the main battery)
     verificationExplainer:
       'You can’t, fully — and we won’t pretend otherwise. Here’s what we actually do: We record the file’s fingerprint (9f3a…42cd) when we post it — a file’s unchangeable ID. If even one byte changes, this changes. When your download arrives, we check it against that fingerprint automatically. The check proves the file arrived unchanged — not that it’s safe. No check can prove a model is safe. The license (MIT) is what the source states — we record it, we don’t verify it. "Posted by the Bay team" names the poster, not the author. Downloading can’t hurt your computer by itself — it’s just a file, like a photo. Nothing runs unless you choose to run it. Something wrong with this file? Report it ›',
@@ -135,7 +147,7 @@ export const COPY = {
     readyLimitation: 'That proves it arrived unchanged, not that the model is safe.',
     start: 'Start chatting',
     // states
-    s0: "You've already got this one — checked and ready.",
+    s0: "This one's already downloaded — checked and ready.",
     s0Again: 'Download it again anyway',
     s3: (pct: number, got: string, total: string) =>
       `Still downloading — ${pct}% · ${got} of ${total}.`,
@@ -157,6 +169,10 @@ export const COPY = {
     checkFailed: "We couldn't run the check on this file.",
     checkFailedSub:
       "That doesn't mean the file is bad — it means we don't know. Don't treat it as checked.",
+    // G2B-35, LOCKED 2026-09-24; status text beside the disabled Chat action.
+    chatDisabled: "We don't know this is the right file yet — chatting stays off until the check passes.",
+    // M2; permission mechanism remains gated until the native notify owner lands.
+    notifyPrePrompt: 'Want us to let you know when your download finishes?',
     checkFailedRetry: 'Try the check again',
     mismatch: "This file isn't the one we expected. Don't use it.",
     mismatchSub:
@@ -181,7 +197,8 @@ export const COPY = {
     // S2 privacy pill expanded
     s2a:
       'The model runs on this computer — it answers using the file you downloaded. No account, no sign-in.',
-    s2b: 'Your chats are saved on this Mac.',
+    // L6 / CA-11, LOCKED 2026-09-24.
+    s2b: "Your chats stay on this Mac — they're kept here, like files you save on your computer.",
     s2Delete: 'Delete this chat',
     // S4 stalled-wait
     s4: (name: string) => `Starting ${name}… it's taking a while.`,
@@ -245,6 +262,12 @@ export const COPY = {
     // switcher rows: {name} / {fit verdict}
     switcherGetMore: 'Get more models',
     runningNow: '● Running now',
+    // M1 load-time variant, verified LOCKED in COPY_LOCK_ADDENDUM.
+    // Keep distinct from the chat-time S5 rescue; bind measured memory only.
+    loadMemoryFailure: (model: string) =>
+      `This Mac doesn't have enough memory to load ${model}. Your Mac is fine — nothing broke, and your chats are safe.`,
+    loadMemoryQuiet: (needGB: number, haveGB: number) =>
+      `Closing other apps won't help enough — the model needs about ${needGB} GB, and this Mac has ${haveGB} GB.`,
     // S5 OOM rescue
     s5Head: "Let's switch to the version that fits.",
     s5Body: (model: string) =>
@@ -260,6 +283,7 @@ export const COPY = {
   },
 
   f10: {
+    rows: ['Downloads', 'Updates', 'What this app sends.', 'About'],
     about: {
       title: (v: string) => `The Hugging Bay — ${v}`,
       builtOn: 'Built on Jan. © 2025 Menlo Research. Apache License 2.0.',

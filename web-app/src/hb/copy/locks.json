@@ -1,0 +1,45 @@
+{
+  "source": "desktop-loop/COPY_LOCK_ADDENDUM.md (2026-09-24); overrides APP_SPEC body",
+  "locks": {
+    "f4.s0": {
+      "id": "L1",
+      "bindings": [],
+      "sha256": "eaa45ea1be292000c51c17638310cc924687f6bc726c30933828a90f2c671d42"
+    },
+    "f4.chatDisabled": {
+      "id": "G2B-35",
+      "bindings": [],
+      "sha256": "f052119002df49139806504d476c2498ead6fec95d78f107664d1bdd60a40fe6"
+    },
+    "f4.notifyPrePrompt": {
+      "id": "M2",
+      "bindings": [],
+      "sha256": "c68e3ecf61845d20aec6d49785891fe165c42ab02798602ca95450d906741ea2"
+    },
+    "f6.s2b": {
+      "id": "L6/CA-11",
+      "bindings": [],
+      "sha256": "6602b73bb8d480b0efbcda00ea5a7ed80e7ada44bf195a9eb4ddb417ef626bcb"
+    },
+    "f8.loadMemoryFailure": {
+      "id": "M1",
+      "bindings": [
+        "Llama 3 8B"
+      ],
+      "sha256": "e2ed6f64250f30c4f1df213f7be068d1c85ef0da59ca99ba187e531d8478ebee"
+    },
+    "f8.loadMemoryQuiet": {
+      "id": "M1-quiet",
+      "bindings": [
+        8,
+        4
+      ],
+      "sha256": "796f18ea1af9ac674ee3bcb1275d88d20dc8ef7052ab217365020c8ee84becd3"
+    },
+    "f3.defaultFileNote": {
+      "id": "L4",
+      "bindings": [],
+      "sha256": "a3496fe6a834f5ecbd8a120b3ab77855bb69045cd443c59e6897dee0d7c9905f"
+    }
+  }
+}

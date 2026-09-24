@@ -9,51 +9,35 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as SystemMonitorRouteImport } from './routes/system-monitor'
-import { Route as LogsRouteImport } from './routes/logs'
-import { Route as CoworkRouteImport } from './routes/cowork'
-import { Route as ArtifactsRouteImport } from './routes/artifacts'
+import { Route as UpdatesRouteImport } from './routes/updates'
+import { Route as SettingsRouteImport } from './routes/settings'
+import { Route as LibraryRouteImport } from './routes/library'
+import { Route as DiscoverRouteImport } from './routes/discover'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as HubIndexRouteImport } from './routes/hub/index'
-import { Route as ThreadsThreadIdRouteImport } from './routes/threads/$threadId'
-import { Route as SettingsWebSearchRouteImport } from './routes/settings/web-search'
-import { Route as SettingsShortcutsRouteImport } from './routes/settings/shortcuts'
-import { Route as SettingsPrivacyRouteImport } from './routes/settings/privacy'
-import { Route as SettingsMcpServersRouteImport } from './routes/settings/mcp-servers'
-import { Route as SettingsLocalApiServerRouteImport } from './routes/settings/local-api-server'
-import { Route as SettingsInterfaceRouteImport } from './routes/settings/interface'
-import { Route as SettingsHttpsProxyRouteImport } from './routes/settings/https-proxy'
-import { Route as SettingsHardwareRouteImport } from './routes/settings/hardware'
-import { Route as SettingsGeneralRouteImport } from './routes/settings/general'
-import { Route as SettingsExtensionsRouteImport } from './routes/settings/extensions'
-import { Route as SettingsCoworkRouteImport } from './routes/settings/cowork'
-import { Route as SettingsClaudeCodeRouteImport } from './routes/settings/claude-code'
-import { Route as SettingsAttachmentsRouteImport } from './routes/settings/attachments'
-import { Route as SettingsAssistantRouteImport } from './routes/settings/assistant'
-import { Route as ProjectProjectIdRouteImport } from './routes/project/$projectId'
-import { Route as LocalApiServerLogsRouteImport } from './routes/local-api-server/logs'
-import { Route as HubModelIdRouteImport } from './routes/hub/$modelId'
-import { Route as SettingsProvidersIndexRouteImport } from './routes/settings/providers/index'
-import { Route as SettingsProvidersProviderNameRouteImport } from './routes/settings/providers/$providerName'
+import { Route as DownloadsIndexRouteImport } from './routes/downloads/index'
+import { Route as ChatIndexRouteImport } from './routes/chat/index'
+import { Route as ModelsModelIdRouteImport } from './routes/models/$modelId'
+import { Route as DownloadsTaskIdRouteImport } from './routes/downloads/$taskId'
+import { Route as ChatThreadIdRouteImport } from './routes/chat/$threadId'
 
-const SystemMonitorRoute = SystemMonitorRouteImport.update({
-  id: '/system-monitor',
-  path: '/system-monitor',
+const UpdatesRoute = UpdatesRouteImport.update({
+  id: '/updates',
+  path: '/updates',
   getParentRoute: () => rootRouteImport,
 } as any)
-const LogsRoute = LogsRouteImport.update({
-  id: '/logs',
-  path: '/logs',
+const SettingsRoute = SettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
   getParentRoute: () => rootRouteImport,
 } as any)
-const CoworkRoute = CoworkRouteImport.update({
-  id: '/cowork',
-  path: '/cowork',
+const LibraryRoute = LibraryRouteImport.update({
+  id: '/library',
+  path: '/library',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ArtifactsRoute = ArtifactsRouteImport.update({
-  id: '/artifacts',
-  path: '/artifacts',
+const DiscoverRoute = DiscoverRouteImport.update({
+  id: '/discover',
+  path: '/discover',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -61,342 +45,149 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const HubIndexRoute = HubIndexRouteImport.update({
-  id: '/hub/',
-  path: '/hub/',
+const DownloadsIndexRoute = DownloadsIndexRouteImport.update({
+  id: '/downloads/',
+  path: '/downloads/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ThreadsThreadIdRoute = ThreadsThreadIdRouteImport.update({
-  id: '/threads/$threadId',
-  path: '/threads/$threadId',
+const ChatIndexRoute = ChatIndexRouteImport.update({
+  id: '/chat/',
+  path: '/chat/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const SettingsWebSearchRoute = SettingsWebSearchRouteImport.update({
-  id: '/settings/web-search',
-  path: '/settings/web-search',
+const ModelsModelIdRoute = ModelsModelIdRouteImport.update({
+  id: '/models/$modelId',
+  path: '/models/$modelId',
   getParentRoute: () => rootRouteImport,
 } as any)
-const SettingsShortcutsRoute = SettingsShortcutsRouteImport.update({
-  id: '/settings/shortcuts',
-  path: '/settings/shortcuts',
+const DownloadsTaskIdRoute = DownloadsTaskIdRouteImport.update({
+  id: '/downloads/$taskId',
+  path: '/downloads/$taskId',
   getParentRoute: () => rootRouteImport,
 } as any)
-const SettingsPrivacyRoute = SettingsPrivacyRouteImport.update({
-  id: '/settings/privacy',
-  path: '/settings/privacy',
+const ChatThreadIdRoute = ChatThreadIdRouteImport.update({
+  id: '/chat/$threadId',
+  path: '/chat/$threadId',
   getParentRoute: () => rootRouteImport,
 } as any)
-const SettingsMcpServersRoute = SettingsMcpServersRouteImport.update({
-  id: '/settings/mcp-servers',
-  path: '/settings/mcp-servers',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SettingsLocalApiServerRoute = SettingsLocalApiServerRouteImport.update({
-  id: '/settings/local-api-server',
-  path: '/settings/local-api-server',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SettingsInterfaceRoute = SettingsInterfaceRouteImport.update({
-  id: '/settings/interface',
-  path: '/settings/interface',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SettingsHttpsProxyRoute = SettingsHttpsProxyRouteImport.update({
-  id: '/settings/https-proxy',
-  path: '/settings/https-proxy',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SettingsHardwareRoute = SettingsHardwareRouteImport.update({
-  id: '/settings/hardware',
-  path: '/settings/hardware',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SettingsGeneralRoute = SettingsGeneralRouteImport.update({
-  id: '/settings/general',
-  path: '/settings/general',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SettingsExtensionsRoute = SettingsExtensionsRouteImport.update({
-  id: '/settings/extensions',
-  path: '/settings/extensions',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SettingsCoworkRoute = SettingsCoworkRouteImport.update({
-  id: '/settings/cowork',
-  path: '/settings/cowork',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SettingsClaudeCodeRoute = SettingsClaudeCodeRouteImport.update({
-  id: '/settings/claude-code',
-  path: '/settings/claude-code',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SettingsAttachmentsRoute = SettingsAttachmentsRouteImport.update({
-  id: '/settings/attachments',
-  path: '/settings/attachments',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SettingsAssistantRoute = SettingsAssistantRouteImport.update({
-  id: '/settings/assistant',
-  path: '/settings/assistant',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ProjectProjectIdRoute = ProjectProjectIdRouteImport.update({
-  id: '/project/$projectId',
-  path: '/project/$projectId',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const LocalApiServerLogsRoute = LocalApiServerLogsRouteImport.update({
-  id: '/local-api-server/logs',
-  path: '/local-api-server/logs',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const HubModelIdRoute = HubModelIdRouteImport.update({
-  id: '/hub/$modelId',
-  path: '/hub/$modelId',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SettingsProvidersIndexRoute = SettingsProvidersIndexRouteImport.update({
-  id: '/settings/providers/',
-  path: '/settings/providers/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SettingsProvidersProviderNameRoute =
-  SettingsProvidersProviderNameRouteImport.update({
-    id: '/settings/providers/$providerName',
-    path: '/settings/providers/$providerName',
-    getParentRoute: () => rootRouteImport,
-  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/artifacts': typeof ArtifactsRoute
-  '/cowork': typeof CoworkRoute
-  '/logs': typeof LogsRoute
-  '/system-monitor': typeof SystemMonitorRoute
-  '/hub/$modelId': typeof HubModelIdRoute
-  '/local-api-server/logs': typeof LocalApiServerLogsRoute
-  '/project/$projectId': typeof ProjectProjectIdRoute
-  '/settings/assistant': typeof SettingsAssistantRoute
-  '/settings/attachments': typeof SettingsAttachmentsRoute
-  '/settings/claude-code': typeof SettingsClaudeCodeRoute
-  '/settings/cowork': typeof SettingsCoworkRoute
-  '/settings/extensions': typeof SettingsExtensionsRoute
-  '/settings/general': typeof SettingsGeneralRoute
-  '/settings/hardware': typeof SettingsHardwareRoute
-  '/settings/https-proxy': typeof SettingsHttpsProxyRoute
-  '/settings/interface': typeof SettingsInterfaceRoute
-  '/settings/local-api-server': typeof SettingsLocalApiServerRoute
-  '/settings/mcp-servers': typeof SettingsMcpServersRoute
-  '/settings/privacy': typeof SettingsPrivacyRoute
-  '/settings/shortcuts': typeof SettingsShortcutsRoute
-  '/settings/web-search': typeof SettingsWebSearchRoute
-  '/threads/$threadId': typeof ThreadsThreadIdRoute
-  '/hub/': typeof HubIndexRoute
-  '/settings/providers/$providerName': typeof SettingsProvidersProviderNameRoute
-  '/settings/providers/': typeof SettingsProvidersIndexRoute
+  '/discover': typeof DiscoverRoute
+  '/library': typeof LibraryRoute
+  '/settings': typeof SettingsRoute
+  '/updates': typeof UpdatesRoute
+  '/chat/$threadId': typeof ChatThreadIdRoute
+  '/downloads/$taskId': typeof DownloadsTaskIdRoute
+  '/models/$modelId': typeof ModelsModelIdRoute
+  '/chat/': typeof ChatIndexRoute
+  '/downloads/': typeof DownloadsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/artifacts': typeof ArtifactsRoute
-  '/cowork': typeof CoworkRoute
-  '/logs': typeof LogsRoute
-  '/system-monitor': typeof SystemMonitorRoute
-  '/hub/$modelId': typeof HubModelIdRoute
-  '/local-api-server/logs': typeof LocalApiServerLogsRoute
-  '/project/$projectId': typeof ProjectProjectIdRoute
-  '/settings/assistant': typeof SettingsAssistantRoute
-  '/settings/attachments': typeof SettingsAttachmentsRoute
-  '/settings/claude-code': typeof SettingsClaudeCodeRoute
-  '/settings/cowork': typeof SettingsCoworkRoute
-  '/settings/extensions': typeof SettingsExtensionsRoute
-  '/settings/general': typeof SettingsGeneralRoute
-  '/settings/hardware': typeof SettingsHardwareRoute
-  '/settings/https-proxy': typeof SettingsHttpsProxyRoute
-  '/settings/interface': typeof SettingsInterfaceRoute
-  '/settings/local-api-server': typeof SettingsLocalApiServerRoute
-  '/settings/mcp-servers': typeof SettingsMcpServersRoute
-  '/settings/privacy': typeof SettingsPrivacyRoute
-  '/settings/shortcuts': typeof SettingsShortcutsRoute
-  '/settings/web-search': typeof SettingsWebSearchRoute
-  '/threads/$threadId': typeof ThreadsThreadIdRoute
-  '/hub': typeof HubIndexRoute
-  '/settings/providers/$providerName': typeof SettingsProvidersProviderNameRoute
-  '/settings/providers': typeof SettingsProvidersIndexRoute
+  '/discover': typeof DiscoverRoute
+  '/library': typeof LibraryRoute
+  '/settings': typeof SettingsRoute
+  '/updates': typeof UpdatesRoute
+  '/chat/$threadId': typeof ChatThreadIdRoute
+  '/downloads/$taskId': typeof DownloadsTaskIdRoute
+  '/models/$modelId': typeof ModelsModelIdRoute
+  '/chat': typeof ChatIndexRoute
+  '/downloads': typeof DownloadsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/artifacts': typeof ArtifactsRoute
-  '/cowork': typeof CoworkRoute
-  '/logs': typeof LogsRoute
-  '/system-monitor': typeof SystemMonitorRoute
-  '/hub/$modelId': typeof HubModelIdRoute
-  '/local-api-server/logs': typeof LocalApiServerLogsRoute
-  '/project/$projectId': typeof ProjectProjectIdRoute
-  '/settings/assistant': typeof SettingsAssistantRoute
-  '/settings/attachments': typeof SettingsAttachmentsRoute
-  '/settings/claude-code': typeof SettingsClaudeCodeRoute
-  '/settings/cowork': typeof SettingsCoworkRoute
-  '/settings/extensions': typeof SettingsExtensionsRoute
-  '/settings/general': typeof SettingsGeneralRoute
-  '/settings/hardware': typeof SettingsHardwareRoute
-  '/settings/https-proxy': typeof SettingsHttpsProxyRoute
-  '/settings/interface': typeof SettingsInterfaceRoute
-  '/settings/local-api-server': typeof SettingsLocalApiServerRoute
-  '/settings/mcp-servers': typeof SettingsMcpServersRoute
-  '/settings/privacy': typeof SettingsPrivacyRoute
-  '/settings/shortcuts': typeof SettingsShortcutsRoute
-  '/settings/web-search': typeof SettingsWebSearchRoute
-  '/threads/$threadId': typeof ThreadsThreadIdRoute
-  '/hub/': typeof HubIndexRoute
-  '/settings/providers/$providerName': typeof SettingsProvidersProviderNameRoute
-  '/settings/providers/': typeof SettingsProvidersIndexRoute
+  '/discover': typeof DiscoverRoute
+  '/library': typeof LibraryRoute
+  '/settings': typeof SettingsRoute
+  '/updates': typeof UpdatesRoute
+  '/chat/$threadId': typeof ChatThreadIdRoute
+  '/downloads/$taskId': typeof DownloadsTaskIdRoute
+  '/models/$modelId': typeof ModelsModelIdRoute
+  '/chat/': typeof ChatIndexRoute
+  '/downloads/': typeof DownloadsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/artifacts'
-    | '/cowork'
-    | '/logs'
-    | '/system-monitor'
-    | '/hub/$modelId'
-    | '/local-api-server/logs'
-    | '/project/$projectId'
-    | '/settings/assistant'
-    | '/settings/attachments'
-    | '/settings/claude-code'
-    | '/settings/cowork'
-    | '/settings/extensions'
-    | '/settings/general'
-    | '/settings/hardware'
-    | '/settings/https-proxy'
-    | '/settings/interface'
-    | '/settings/local-api-server'
-    | '/settings/mcp-servers'
-    | '/settings/privacy'
-    | '/settings/shortcuts'
-    | '/settings/web-search'
-    | '/threads/$threadId'
-    | '/hub/'
-    | '/settings/providers/$providerName'
-    | '/settings/providers/'
+    | '/discover'
+    | '/library'
+    | '/settings'
+    | '/updates'
+    | '/chat/$threadId'
+    | '/downloads/$taskId'
+    | '/models/$modelId'
+    | '/chat/'
+    | '/downloads/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/artifacts'
-    | '/cowork'
-    | '/logs'
-    | '/system-monitor'
-    | '/hub/$modelId'
-    | '/local-api-server/logs'
-    | '/project/$projectId'
-    | '/settings/assistant'
-    | '/settings/attachments'
-    | '/settings/claude-code'
-    | '/settings/cowork'
-    | '/settings/extensions'
-    | '/settings/general'
-    | '/settings/hardware'
-    | '/settings/https-proxy'
-    | '/settings/interface'
-    | '/settings/local-api-server'
-    | '/settings/mcp-servers'
-    | '/settings/privacy'
-    | '/settings/shortcuts'
-    | '/settings/web-search'
-    | '/threads/$threadId'
-    | '/hub'
-    | '/settings/providers/$providerName'
-    | '/settings/providers'
+    | '/discover'
+    | '/library'
+    | '/settings'
+    | '/updates'
+    | '/chat/$threadId'
+    | '/downloads/$taskId'
+    | '/models/$modelId'
+    | '/chat'
+    | '/downloads'
   id:
     | '__root__'
     | '/'
-    | '/artifacts'
-    | '/cowork'
-    | '/logs'
-    | '/system-monitor'
-    | '/hub/$modelId'
-    | '/local-api-server/logs'
-    | '/project/$projectId'
-    | '/settings/assistant'
-    | '/settings/attachments'
-    | '/settings/claude-code'
-    | '/settings/cowork'
-    | '/settings/extensions'
-    | '/settings/general'
-    | '/settings/hardware'
-    | '/settings/https-proxy'
-    | '/settings/interface'
-    | '/settings/local-api-server'
-    | '/settings/mcp-servers'
-    | '/settings/privacy'
-    | '/settings/shortcuts'
-    | '/settings/web-search'
-    | '/threads/$threadId'
-    | '/hub/'
-    | '/settings/providers/$providerName'
-    | '/settings/providers/'
+    | '/discover'
+    | '/library'
+    | '/settings'
+    | '/updates'
+    | '/chat/$threadId'
+    | '/downloads/$taskId'
+    | '/models/$modelId'
+    | '/chat/'
+    | '/downloads/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  ArtifactsRoute: typeof ArtifactsRoute
-  CoworkRoute: typeof CoworkRoute
-  LogsRoute: typeof LogsRoute
-  SystemMonitorRoute: typeof SystemMonitorRoute
-  HubModelIdRoute: typeof HubModelIdRoute
-  LocalApiServerLogsRoute: typeof LocalApiServerLogsRoute
-  ProjectProjectIdRoute: typeof ProjectProjectIdRoute
-  SettingsAssistantRoute: typeof SettingsAssistantRoute
-  SettingsAttachmentsRoute: typeof SettingsAttachmentsRoute
-  SettingsClaudeCodeRoute: typeof SettingsClaudeCodeRoute
-  SettingsCoworkRoute: typeof SettingsCoworkRoute
-  SettingsExtensionsRoute: typeof SettingsExtensionsRoute
-  SettingsGeneralRoute: typeof SettingsGeneralRoute
-  SettingsHardwareRoute: typeof SettingsHardwareRoute
-  SettingsHttpsProxyRoute: typeof SettingsHttpsProxyRoute
-  SettingsInterfaceRoute: typeof SettingsInterfaceRoute
-  SettingsLocalApiServerRoute: typeof SettingsLocalApiServerRoute
-  SettingsMcpServersRoute: typeof SettingsMcpServersRoute
-  SettingsPrivacyRoute: typeof SettingsPrivacyRoute
-  SettingsShortcutsRoute: typeof SettingsShortcutsRoute
-  SettingsWebSearchRoute: typeof SettingsWebSearchRoute
-  ThreadsThreadIdRoute: typeof ThreadsThreadIdRoute
-  HubIndexRoute: typeof HubIndexRoute
-  SettingsProvidersProviderNameRoute: typeof SettingsProvidersProviderNameRoute
-  SettingsProvidersIndexRoute: typeof SettingsProvidersIndexRoute
+  DiscoverRoute: typeof DiscoverRoute
+  LibraryRoute: typeof LibraryRoute
+  SettingsRoute: typeof SettingsRoute
+  UpdatesRoute: typeof UpdatesRoute
+  ChatThreadIdRoute: typeof ChatThreadIdRoute
+  DownloadsTaskIdRoute: typeof DownloadsTaskIdRoute
+  ModelsModelIdRoute: typeof ModelsModelIdRoute
+  ChatIndexRoute: typeof ChatIndexRoute
+  DownloadsIndexRoute: typeof DownloadsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/system-monitor': {
-      id: '/system-monitor'
-      path: '/system-monitor'
-      fullPath: '/system-monitor'
-      preLoaderRoute: typeof SystemMonitorRouteImport
+    '/updates': {
+      id: '/updates'
+      path: '/updates'
+      fullPath: '/updates'
+      preLoaderRoute: typeof UpdatesRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/logs': {
-      id: '/logs'
-      path: '/logs'
-      fullPath: '/logs'
-      preLoaderRoute: typeof LogsRouteImport
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/cowork': {
-      id: '/cowork'
-      path: '/cowork'
-      fullPath: '/cowork'
-      preLoaderRoute: typeof CoworkRouteImport
+    '/library': {
+      id: '/library'
+      path: '/library'
+      fullPath: '/library'
+      preLoaderRoute: typeof LibraryRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/artifacts': {
-      id: '/artifacts'
-      path: '/artifacts'
-      fullPath: '/artifacts'
-      preLoaderRoute: typeof ArtifactsRouteImport
+    '/discover': {
+      id: '/discover'
+      path: '/discover'
+      fullPath: '/discover'
+      preLoaderRoute: typeof DiscoverRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -406,151 +197,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/hub/': {
-      id: '/hub/'
-      path: '/hub'
-      fullPath: '/hub/'
-      preLoaderRoute: typeof HubIndexRouteImport
+    '/downloads/': {
+      id: '/downloads/'
+      path: '/downloads'
+      fullPath: '/downloads/'
+      preLoaderRoute: typeof DownloadsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/threads/$threadId': {
-      id: '/threads/$threadId'
-      path: '/threads/$threadId'
-      fullPath: '/threads/$threadId'
-      preLoaderRoute: typeof ThreadsThreadIdRouteImport
+    '/chat/': {
+      id: '/chat/'
+      path: '/chat'
+      fullPath: '/chat/'
+      preLoaderRoute: typeof ChatIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/settings/web-search': {
-      id: '/settings/web-search'
-      path: '/settings/web-search'
-      fullPath: '/settings/web-search'
-      preLoaderRoute: typeof SettingsWebSearchRouteImport
+    '/models/$modelId': {
+      id: '/models/$modelId'
+      path: '/models/$modelId'
+      fullPath: '/models/$modelId'
+      preLoaderRoute: typeof ModelsModelIdRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/settings/shortcuts': {
-      id: '/settings/shortcuts'
-      path: '/settings/shortcuts'
-      fullPath: '/settings/shortcuts'
-      preLoaderRoute: typeof SettingsShortcutsRouteImport
+    '/downloads/$taskId': {
+      id: '/downloads/$taskId'
+      path: '/downloads/$taskId'
+      fullPath: '/downloads/$taskId'
+      preLoaderRoute: typeof DownloadsTaskIdRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/settings/privacy': {
-      id: '/settings/privacy'
-      path: '/settings/privacy'
-      fullPath: '/settings/privacy'
-      preLoaderRoute: typeof SettingsPrivacyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/settings/mcp-servers': {
-      id: '/settings/mcp-servers'
-      path: '/settings/mcp-servers'
-      fullPath: '/settings/mcp-servers'
-      preLoaderRoute: typeof SettingsMcpServersRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/settings/local-api-server': {
-      id: '/settings/local-api-server'
-      path: '/settings/local-api-server'
-      fullPath: '/settings/local-api-server'
-      preLoaderRoute: typeof SettingsLocalApiServerRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/settings/interface': {
-      id: '/settings/interface'
-      path: '/settings/interface'
-      fullPath: '/settings/interface'
-      preLoaderRoute: typeof SettingsInterfaceRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/settings/https-proxy': {
-      id: '/settings/https-proxy'
-      path: '/settings/https-proxy'
-      fullPath: '/settings/https-proxy'
-      preLoaderRoute: typeof SettingsHttpsProxyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/settings/hardware': {
-      id: '/settings/hardware'
-      path: '/settings/hardware'
-      fullPath: '/settings/hardware'
-      preLoaderRoute: typeof SettingsHardwareRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/settings/general': {
-      id: '/settings/general'
-      path: '/settings/general'
-      fullPath: '/settings/general'
-      preLoaderRoute: typeof SettingsGeneralRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/settings/extensions': {
-      id: '/settings/extensions'
-      path: '/settings/extensions'
-      fullPath: '/settings/extensions'
-      preLoaderRoute: typeof SettingsExtensionsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/settings/cowork': {
-      id: '/settings/cowork'
-      path: '/settings/cowork'
-      fullPath: '/settings/cowork'
-      preLoaderRoute: typeof SettingsCoworkRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/settings/claude-code': {
-      id: '/settings/claude-code'
-      path: '/settings/claude-code'
-      fullPath: '/settings/claude-code'
-      preLoaderRoute: typeof SettingsClaudeCodeRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/settings/attachments': {
-      id: '/settings/attachments'
-      path: '/settings/attachments'
-      fullPath: '/settings/attachments'
-      preLoaderRoute: typeof SettingsAttachmentsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/settings/assistant': {
-      id: '/settings/assistant'
-      path: '/settings/assistant'
-      fullPath: '/settings/assistant'
-      preLoaderRoute: typeof SettingsAssistantRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/project/$projectId': {
-      id: '/project/$projectId'
-      path: '/project/$projectId'
-      fullPath: '/project/$projectId'
-      preLoaderRoute: typeof ProjectProjectIdRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/local-api-server/logs': {
-      id: '/local-api-server/logs'
-      path: '/local-api-server/logs'
-      fullPath: '/local-api-server/logs'
-      preLoaderRoute: typeof LocalApiServerLogsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/hub/$modelId': {
-      id: '/hub/$modelId'
-      path: '/hub/$modelId'
-      fullPath: '/hub/$modelId'
-      preLoaderRoute: typeof HubModelIdRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/settings/providers/': {
-      id: '/settings/providers/'
-      path: '/settings/providers'
-      fullPath: '/settings/providers/'
-      preLoaderRoute: typeof SettingsProvidersIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/settings/providers/$providerName': {
-      id: '/settings/providers/$providerName'
-      path: '/settings/providers/$providerName'
-      fullPath: '/settings/providers/$providerName'
-      preLoaderRoute: typeof SettingsProvidersProviderNameRouteImport
+    '/chat/$threadId': {
+      id: '/chat/$threadId'
+      path: '/chat/$threadId'
+      fullPath: '/chat/$threadId'
+      preLoaderRoute: typeof ChatThreadIdRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -558,31 +237,15 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  ArtifactsRoute: ArtifactsRoute,
-  CoworkRoute: CoworkRoute,
-  LogsRoute: LogsRoute,
-  SystemMonitorRoute: SystemMonitorRoute,
-  HubModelIdRoute: HubModelIdRoute,
-  LocalApiServerLogsRoute: LocalApiServerLogsRoute,
-  ProjectProjectIdRoute: ProjectProjectIdRoute,
-  SettingsAssistantRoute: SettingsAssistantRoute,
-  SettingsAttachmentsRoute: SettingsAttachmentsRoute,
-  SettingsClaudeCodeRoute: SettingsClaudeCodeRoute,
-  SettingsCoworkRoute: SettingsCoworkRoute,
-  SettingsExtensionsRoute: SettingsExtensionsRoute,
-  SettingsGeneralRoute: SettingsGeneralRoute,
-  SettingsHardwareRoute: SettingsHardwareRoute,
-  SettingsHttpsProxyRoute: SettingsHttpsProxyRoute,
-  SettingsInterfaceRoute: SettingsInterfaceRoute,
-  SettingsLocalApiServerRoute: SettingsLocalApiServerRoute,
-  SettingsMcpServersRoute: SettingsMcpServersRoute,
-  SettingsPrivacyRoute: SettingsPrivacyRoute,
-  SettingsShortcutsRoute: SettingsShortcutsRoute,
-  SettingsWebSearchRoute: SettingsWebSearchRoute,
-  ThreadsThreadIdRoute: ThreadsThreadIdRoute,
-  HubIndexRoute: HubIndexRoute,
-  SettingsProvidersProviderNameRoute: SettingsProvidersProviderNameRoute,
-  SettingsProvidersIndexRoute: SettingsProvidersIndexRoute,
+  DiscoverRoute: DiscoverRoute,
+  LibraryRoute: LibraryRoute,
+  SettingsRoute: SettingsRoute,
+  UpdatesRoute: UpdatesRoute,
+  ChatThreadIdRoute: ChatThreadIdRoute,
+  DownloadsTaskIdRoute: DownloadsTaskIdRoute,
+  ModelsModelIdRoute: ModelsModelIdRoute,
+  ChatIndexRoute: ChatIndexRoute,
+  DownloadsIndexRoute: DownloadsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

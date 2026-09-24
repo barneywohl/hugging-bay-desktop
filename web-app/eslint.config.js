@@ -1,4 +1,5 @@
 import js from '@eslint/js'
+import hb from './eslint-rules/hb.js'
 import globals from 'globals'
 import reactHooks from 'eslint-plugin-react-hooks'
 import reactRefresh from 'eslint-plugin-react-refresh'
@@ -24,5 +25,19 @@ export default tseslint.config(
         { allowConstantExport: true },
       ],
     },
+  },
+  {
+    files: ['src/**/*.{ts,tsx}'],
+    ignores: ['src/hb/ipc/**', 'src/routeTree.gen.ts'],
+    plugins: { hb },
+    rules: { 'hb/no-invoke-string-literals': 'error' },
+  },
+  {
+    files: ['src/hb/features/**/*.{ts,tsx}', 'src/hb/components/**/*.{ts,tsx}', 'src/routes/**/*.{ts,tsx}'],
+    rules: { 'hb/verbatim-copy': 'error', 'hb/mirror-boundary': 'error' },
+  },
+  {
+    files: ['src/hb/stores/**/*.{ts,tsx}'],
+    rules: { 'hb/no-mirror-persistence': 'error' },
   },
 )
