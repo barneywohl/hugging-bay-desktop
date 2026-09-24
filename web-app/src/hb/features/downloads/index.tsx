@@ -4,6 +4,7 @@ import { COPY } from '../../copy/strings'
 import { useDownloadStore } from '../../stores'
 import { deriveAll, downloadControls, type DownloadView } from '../../downloads'
 import { formatSize } from '../../fit'
+import { VerifyGrammar } from '../verify'
 
 // F4 — the single journey rail (Getting → Checking → Ready). Rows are a projection
 // of the download mirror; all transitions originate in main (§3.8). No timer
@@ -54,12 +55,11 @@ function RailRow({ view }: { view: DownloadView }) {
     )
   }
   if (view.phase === 'checking') {
-    return (
-      <>
-        <p aria-live="polite">{COPY.f4.checking}</p>
-        <p className="hb-quiet">{COPY.f4.checkingSub}</p>
-      </>
-    )
+    // F5-A grammar owned by verify/, imported verbatim on the rail (§4.7). Falls
+    // back to the static line only if the completed event had no fileId.
+    return view.fileId
+      ? <VerifyGrammar fileId={view.fileId} />
+      : <><p aria-live="polite">{COPY.f4.checking}</p><p className="hb-quiet">{COPY.f4.checkingSub}</p></>
   }
   if (view.phase === 'failed-check') {
     if (view.checkVerdict === 'mismatched') {

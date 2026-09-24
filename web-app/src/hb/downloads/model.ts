@@ -22,6 +22,7 @@ export type StallReason = 'slow' | 'stall' | 'offline' | 'space' | 'metered' | n
 
 export interface DownloadView {
   taskId: string
+  fileId: string | null
   state: DownloadState | null
   phase: RailPhase
   bytesReceived: number | null
@@ -74,12 +75,13 @@ function reasonOf(state: DownloadState | null, obs: DownloadObservation): StallR
 
 export function deriveTask(taskId: string, obs: DownloadObservation | undefined): DownloadView {
   const empty: DownloadView = {
-    taskId, state: null, phase: 'idle', bytesReceived: null, totalBytes: null, pct: null,
+    taskId, fileId: null, state: null, phase: 'idle', bytesReceived: null, totalBytes: null, pct: null,
     speedBps: null, etaMinutes: null, reason: null, resumedFrom: null, checkVerdict: null,
     paused: false, terminal: false,
   }
   if (!obs) return empty
 
+  const fileId = obs['download/completed']?.fileId ?? obs['download/requested']?.fileId ?? null
   const state = obs['download/state']?.to ?? null
   const progress = obs['download/progress'] ?? null
   const bytesReceived = progress?.bytesReceived ?? obs['download/checkpoint']?.bytesReceived ?? null
@@ -106,6 +108,7 @@ export function deriveTask(taskId: string, obs: DownloadObservation | undefined)
 
   return {
     taskId,
+    fileId,
     state,
     phase: phaseOf(state),
     bytesReceived,
