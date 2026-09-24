@@ -31,7 +31,11 @@ export const downloadState = z.enum(['S0', 'S1', 'S2', 'S3', 'S4', 'S5', 'S6',
   'S18', 'S19', 'C1A', 'C2E'])
 export type DownloadState = z.infer<typeof downloadState>
 // The spec leaves source open; preserve the caller's attribution, not a guessed enum.
-export const armArgs = modelFile.extend({ source: id })
+// `expectedFingerprint` is the catalog's published SHA-256 for the file, carried
+// through arm → task → verifier so a correct download reaches CHECKED (§4.3). It is
+// optional: an arm from a source that published no fingerprint omits it, and the
+// verifier then hashes for real but cannot claim a match (never a fabricated one).
+export const armArgs = modelFile.extend({ source: id, expectedFingerprint: z.string().nullable().optional() })
 export const taskReceipt = armArgs.extend({
   taskId: id, url: z.url(), bytesReceived: bytes, totalBytes: bytes.nullable(),
   etag: z.string().nullable(), lastModified: z.string().nullable(),
@@ -89,7 +93,11 @@ export const connectivity = z.object({ online: z.boolean(), metered: z.boolean()
 // These minimal extension schemas are provisional until their owning lanes land.
 export const message = z.object({ role: z.enum(['system', 'user', 'assistant']), content: z.string() })
 export const thread = z.object({ threadId: id, title: z.string(), messages: z.array(message) })
-export const catalogFile = modelFile.extend({ name: id, quant: id, bytes, needGB: z.number().nonnegative() })
+// `expectedFingerprint` is the catalog's published SHA-256 for the file (nullable:
+// a record without a published digest carries null). It is the reference the arm
+// hands the verifier; a screen never renders it as a proof — only a byte-matched
+// check/result does that.
+export const catalogFile = modelFile.extend({ name: id, quant: id, bytes, needGB: z.number().nonnegative(), expectedFingerprint: z.string().nullable().optional() })
 export type CatalogFile = z.infer<typeof catalogFile>
 export const catalogCache = z.object({ records: z.array(catalogFile), fetchedAt: z.string().nullable() })
 export const appUpdateState = z.object({

@@ -12,6 +12,9 @@ export interface ArmRequest {
   modelId: string
   fileId: string
   source: string
+  // Optional explicit fingerprint (e.g. a receipt replay); when absent the catalog
+  // file's published fingerprint from the ArmContext is used.
+  expectedFingerprint?: string | null
 }
 
 // Renderer-visible outcomes. `armed` is the only path that produced a task; every
@@ -25,7 +28,9 @@ export type ArmOutcome =
 
 export interface ArmContext {
   hardware: FitInput['hardware']
-  file: FitInput['file']
+  // The catalog file. Its `expectedFingerprint` (the published SHA-256) rides
+  // through arm so the verifier has a reference to match the downloaded bytes to.
+  file: FitInput['file'] & { expectedFingerprint?: string | null }
   siblings?: FitInput['siblings']
   ctxLength?: number
 }
@@ -54,7 +59,14 @@ export async function armDownload(
     // where main re-runs the preflight (§3.3 step 6, never cached) and fails closed.
   }
 
-  const armed = await client.downloads.arm(request)
+  // Carry the catalog's published fingerprint into the arm (§4.3). Omitted when the
+  // record published none — the verifier then cannot claim a match rather than
+  // inventing one. `request` may already carry an explicit fingerprint (a receipt
+  // replay); that wins over the catalog default.
+  const expectedFingerprint = request.expectedFingerprint ?? ctx.file.expectedFingerprint ?? undefined
+  const armed = await client.downloads.arm(
+    expectedFingerprint != null ? { ...request, expectedFingerprint } : request
+  )
   if (!armed.ok) return { outcome: 'error', error: armed.error }
   return { outcome: 'armed', taskId: armed.value.taskId }
 }

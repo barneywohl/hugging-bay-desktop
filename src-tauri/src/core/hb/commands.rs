@@ -33,6 +33,7 @@ pub async fn hb_downloads_arm<R: Runtime>(
     model_id: String,
     file_id: String,
     source: String,
+    expected_fingerprint: Option<String>,
 ) -> Value {
     let Some(url) = resolve_url(&source, &model_id, &file_id) else {
         return err(Area::Download, "core", "SOURCE_UNRESOLVED");
@@ -54,6 +55,9 @@ pub async fn hb_downloads_arm<R: Runtime>(
                 cancel,
                 paused: false,
                 last_state: st::QUEUED.to_string(),
+                // The catalog's published SHA-256 rides in with the arm so the
+                // verifier has a reference to compare the downloaded bytes to.
+                expected_fingerprint: expected_fingerprint.filter(|f| !f.is_empty()),
             },
         );
     }
@@ -74,6 +78,13 @@ pub async fn hb_downloads_start<R: Runtime>(app: tauri::AppHandle<R>, task: Valu
     let file_id = task.get("fileId").and_then(Value::as_str).unwrap_or_default().to_string();
     let source = task.get("source").and_then(Value::as_str).unwrap_or("huggingface").to_string();
     let url = task.get("url").and_then(Value::as_str).map(str::to_string);
+    // The receipt carries the reference fingerprint (§2.2 taskReceipt). Threaded
+    // to the verifier so a receipt-driven start reaches CHECKED on a real match.
+    let expected_fingerprint = task
+        .get("expectedFingerprint")
+        .and_then(Value::as_str)
+        .filter(|f| !f.is_empty())
+        .map(str::to_string);
     let task_id = task
         .get("taskId")
         .and_then(Value::as_str)
@@ -100,6 +111,7 @@ pub async fn hb_downloads_start<R: Runtime>(app: tauri::AppHandle<R>, task: Valu
                 cancel: CancellationToken::new(),
                 paused: false,
                 last_state: st::QUEUED.to_string(),
+                expected_fingerprint,
             },
         );
     }
@@ -179,7 +191,7 @@ fn spawn_download<R: Runtime>(app: tauri::AppHandle<R>, task_id: String, resume:
 
 async fn run_download<R: Runtime>(app: tauri::AppHandle<R>, task_id: String, resume: bool) {
     // Snapshot the immutable bits; never hold the std Mutex across an await.
-    let (url, save_path, cancel, model_id, file_id) = {
+    let (url, save_path, cancel, model_id, file_id, expected) = {
         let reg = REGISTRY.lock().unwrap();
         let Some(t) = reg.tasks.get(&task_id) else { return };
         (
@@ -188,6 +200,7 @@ async fn run_download<R: Runtime>(app: tauri::AppHandle<R>, task_id: String, res
             t.cancel.clone(),
             t.model_id.clone(),
             t.file_id.clone(),
+            t.expected_fingerprint.clone(),
         )
     };
     let partial = partial_of(&save_path);
@@ -330,6 +343,12 @@ async fn run_download<R: Runtime>(app: tauri::AppHandle<R>, task_id: String, res
     // The rail hands off to verification (S14 Checking). The S17 "verified"
     // transition is emitted ONLY by the verifier on a real SHA match.
     emit_state(&app, &task_id, st::VERIFYING);
+    // Auto-chain the real verifier: a completed download is not "Ready" until its
+    // bytes have been hashed and matched to the expected fingerprint. This is the
+    // difference between the rail LOOKING done and a newcomer's file actually
+    // reaching CHECKED. When no fingerprint was armed the verifier still hashes
+    // but reports `failed` (it has nothing to compare against) — never a fake match.
+    run_verify(app, task_id, file_id, save_path, expected).await;
 }
 
 // ===================== VERIFY (SHA-256) =====================
@@ -343,15 +362,17 @@ pub async fn hb_verify_start<R: Runtime>(app: tauri::AppHandle<R>, file_id: Stri
     let resolved = {
         let reg = REGISTRY.lock().unwrap();
         reg.file_to_task.get(&file_id).and_then(|tid| {
-            reg.tasks.get(tid).map(|t| (tid.clone(), t.save_path.clone(), t.model_id.clone()))
+            reg.tasks.get(tid).map(|t| {
+                (tid.clone(), t.save_path.clone(), t.expected_fingerprint.clone())
+            })
         })
     };
-    let Some((task_id, path, _model_id)) = resolved else {
+    let Some((task_id, path, expected)) = resolved else {
         return err(Area::Check, "core", "NO_FILE");
     };
-    // No persisted expected fingerprint in the arm-only subset; verification
-    // hashes for real but has no reference (see report).
-    let expected: Option<String> = None;
+    // The expected fingerprint the task was armed with (catalog SHA / receipt) is
+    // the reference verification compares the real digest against. A recheck
+    // (O-P40) works offline because the fingerprint already rode in with the arm.
     let check_id = uuid::Uuid::new_v4().to_string();
     tauri::async_runtime::spawn(async move {
         run_verify(app, task_id, file_id, path, expected).await;

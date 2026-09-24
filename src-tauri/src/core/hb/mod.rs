@@ -130,6 +130,11 @@ pub struct TaskRec {
     pub cancel: CancellationToken,
     pub paused: bool,
     pub last_state: String,
+    /// The expected SHA-256 the download was armed with (the catalog's published
+    /// fingerprint / the receipt's `expectedFingerprint`). `None` when the source
+    /// carried no reference: the verifier then hashes for real but cannot claim a
+    /// match. This is what lets a correct download reach CHECKED (S17).
+    pub expected_fingerprint: Option<String>,
 }
 
 pub struct Registry {
