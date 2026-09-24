@@ -6,8 +6,9 @@ import { engineMirror, receiveEngine } from './engine'
 import { fitMirror } from './fit'
 import { libraryMirror } from './library'
 import { settingsMirror } from './settings'
+import { catalogMirror } from './catalog'
 
-const mirrors = [downloadMirror, verifyMirror, engineMirror, fitMirror, libraryMirror, settingsMirror]
+const mirrors = [downloadMirror, verifyMirror, engineMirror, fitMirror, libraryMirror, settingsMirror, catalogMirror]
 
 /** A renderer-session lease. Cleanup is safe even while Tauri listen is pending.
  * Requests never invent domain states. Only parsed responses/events enter sinks.
@@ -18,6 +19,7 @@ export function connectMirrors(client: HbClient = ipc) {
   let libraryRevision = 0
   let settingsRevision = 0
   let hardwareRevision = 0
+  let catalogRevision = 0
   const unlisteners: Unsubscribe[] = []
   const subscriptions: Promise<void>[] = []
   mirrors.forEach((mirror) => mirror.reset())
@@ -143,6 +145,28 @@ export function connectMirrors(client: HbClient = ipc) {
     }
     return result
   }
+  // Local cache read — no network. Safe to call on a screen mount (§0.6 law 7).
+  async function readCatalog() {
+    const revision = ++catalogRevision
+    const result = await client.catalog.readCache()
+    if (active && revision === catalogRevision) {
+      if (result.ok) catalogMirror.receive(result.value)
+      else catalogMirror.reject(result.error)
+    }
+    return result
+  }
+  // Network refresh — ONLY on an explicit user action, never on boot.
+  async function refreshCatalog() {
+    if (!active) return failure('CATALOG', 'unavailable')
+    const revision = ++catalogRevision
+    const result = await client.catalog.refresh()
+    if (active && revision === catalogRevision) {
+      if (result.ok) catalogMirror.receive(result.value)
+      else catalogMirror.reject(result.error)
+    }
+    return result
+  }
+
   // Subscribe first, query second. Revisions stop a late query overwriting a kill
   // event or a storage-unreachable event. No update/catalog/network call on boot.
   const ready = Promise.all(subscriptions).then(async () => {
@@ -150,6 +174,7 @@ export function connectMirrors(client: HbClient = ipc) {
   })
   return {
     ready, probeHardware, refreshEngine, refreshLibrary, readSettings, writeSettings,
+    readCatalog, refreshCatalog,
     stop() {
       if (!active) return
       active = false

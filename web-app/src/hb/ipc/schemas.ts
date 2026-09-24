@@ -90,6 +90,7 @@ export const connectivity = z.object({ online: z.boolean(), metered: z.boolean()
 export const message = z.object({ role: z.enum(['system', 'user', 'assistant']), content: z.string() })
 export const thread = z.object({ threadId: id, title: z.string(), messages: z.array(message) })
 export const catalogFile = modelFile.extend({ name: id, quant: id, bytes, needGB: z.number().nonnegative() })
+export type CatalogFile = z.infer<typeof catalogFile>
 export const catalogCache = z.object({ records: z.array(catalogFile), fetchedAt: z.string().nullable() })
 export const appUpdateState = z.object({
   state: z.enum(['idle', 'checking', 'available', 'downloading', 'staged', 'installing', 'failed', 'up-to-date']),
@@ -111,3 +112,8 @@ export const settings = z.object({
   advanced: z.object({ enabled: z.boolean() }),
 }).strict()
 export type Settings = z.infer<typeof settings>
+export type CatalogCache = z.infer<typeof catalogCache>
+export type Connectivity = z.infer<typeof connectivity>
+export type StorageRoot = z.infer<typeof storageRoot>
+export type Thread = z.infer<typeof thread>
+export type Message = z.infer<typeof message>

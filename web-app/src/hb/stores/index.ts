@@ -6,12 +6,14 @@ import { engineMirror } from './engine'
 import { fitMirror } from './fit'
 import { libraryMirror } from './library'
 import { settingsMirror } from './settings'
+import { catalogMirror } from './catalog'
 export const useDownloadStore = downloadMirror.useMirror
 export const useVerifyStore = verifyMirror.useMirror
 export const useEngineStore = engineMirror.useMirror
 export const useFitStore = fitMirror.useMirror
 export const useLibraryStore = libraryMirror.useMirror
 export const useSettingsStore = settingsMirror.useMirror
+export const useCatalogStore = catalogMirror.useMirror
 export { selectDownloadState } from './download'
 export { selectChecked } from './verify'
 export { selectRunningModel } from './engine'
